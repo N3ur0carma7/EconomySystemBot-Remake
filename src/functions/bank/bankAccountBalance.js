@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const UserBank = require('../../models/UserBank');
+
 module.exports = async (interaction) => {
     try {
         let userBank = await UserBank.findOne({
@@ -12,16 +13,21 @@ module.exports = async (interaction) => {
                 .setTitle('No Account Error :')
                 .setDescription("Tu ne peux pas consulter l'argent que tu possèdes sans compte bancaire *(/bank account create)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
                 .setColor("Red");
-            interaction.reply({
+            await interaction.reply({
                 embeds: [noAccountEmbed],
                 ephemeral: true,
             });
             return;
         }
 
-        interaction.reply("***WIP***")
-
-
+        const accountBalanceEmbed = new EmbedBuilder()
+            .setTitle('Account Balance :')
+            .setDescription(`Tu possède actuellement **$${userBank.bankBalance}** sur ton compte bancaire.`)
+            .setColor("Blue");
+        await interaction.reply({
+            embeds: [accountBalanceEmbed],
+            ephemeral: true,
+        });
     } catch (e) {
         const failEmbed = new EmbedBuilder()
             .setTitle("Code Error :")

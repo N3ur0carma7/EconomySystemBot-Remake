@@ -1,6 +1,8 @@
 const { EmbedBuilder } = require("discord.js");
 const bankAccountCreate = require('../../functions/bank/bankAccountCreate');
 const bankAccountBalance = require('../../functions/bank/bankAccountBalance');
+const bankDaily = require('../../functions/bank/bankDaily');
+const bankAccountShow = require('../../functions/bank/bankAccountShow');
 
 const data = {
     name: 'bank',
@@ -21,7 +23,17 @@ const data = {
                     description: "Permet de voir l'argent sur son Compte de Dépot",
                     type: 1,
                 },
+                {
+                    name: 'show',
+                    description: "Permet de montrer l'argent que l'on possède dans le chat.",
+                    type: 1,
+                },
             ],
+        },
+        {
+          name: 'daily',
+          description: "Récupère ta récompense quotidienne !",
+          type: 1,
         },
     ],
 };
@@ -50,7 +62,14 @@ async function run({ interaction }) {
             } switch (command) {
             case 'balance':
                 await bankAccountBalance(interaction);
+            } switch (command) {
+            case 'show':
+                await bankAccountShow(interaction);
             }
+    }
+    switch (command) {
+        case 'daily':
+            await bankDaily(interaction);
     }
 }
 
