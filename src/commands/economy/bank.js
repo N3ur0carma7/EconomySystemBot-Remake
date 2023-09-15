@@ -1,8 +1,9 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const bankAccountCreate = require('../../functions/bank/bankAccountCreate');
 const bankAccountBalance = require('../../functions/bank/bankAccountBalance');
 const bankDaily = require('../../functions/bank/bankDaily');
 const bankAccountShow = require('../../functions/bank/bankAccountShow');
+const bankAccountDelete = require('../../functions/bank/bankAccountDelete');
 
 const data = {
     name: 'bank',
@@ -27,6 +28,19 @@ const data = {
                     name: 'show',
                     description: "Permet de montrer l'argent que l'on possède dans le chat.",
                     type: 1,
+                },
+                {
+                    name: 'delete',
+                    description: "Permet de supprimer son compte bancaire sous acceptation d'un banquier.",
+                    type: 1,
+                    options: [
+                        {
+                            name: 'user',
+                            description: "La personne à qui il faut supprimer le compte bancaire.",
+                            type: ApplicationCommandOptionType.User,
+                            required: true,
+                        },
+                    ],
                 },
             ],
         },
@@ -65,6 +79,10 @@ async function run({ interaction }) {
             } switch (command) {
             case 'show':
                 await bankAccountShow(interaction);
+            } switch (command) {
+            case 'delete':
+                const user = interaction.options.get('user').value;
+                await bankAccountDelete(interaction, user);
             }
     }
     switch (command) {

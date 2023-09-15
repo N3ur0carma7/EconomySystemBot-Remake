@@ -9,10 +9,10 @@ module.exports = async (interaction) => {
             guildId: interaction.guild.id,
         });
 
-        if (!UserBank) {
+        if (!userBank) {
             const noAccountEmbed = new EmbedBuilder()
                 .setTitle('No Account Error :')
-                .setDescription("Tu ne peux pas récolter l'argent quotidien sans compte bancaire *(/bank account create)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
+                .setDescription("Tu ne peux pas récolter l'argent quotidien sans compte bancaire *(**/bank account create**)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
                 .setColor("Red");
             await interaction.reply({
                 embeds: [noAccountEmbed],

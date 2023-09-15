@@ -31,7 +31,7 @@ module.exports = async (interaction) => {
         userBank.save();
         const createAccountEmbed = new EmbedBuilder()
             .setTitle('Created Account :')
-            .setDescription(`Votre compte bancaire a bien été créé en votre nom auprès de la banque Kastovienne. \nCompte de Dépot : **$${userBank.bankBalance}**.`)
+            .setDescription(`Votre compte bancaire a bien été créé en votre nom auprès de la banque Kastovienne. \n\nArgent de Départ : **$${userBank.bankBalance}**.`)
             .setColor("Green");
         await interaction.reply({
             embeds: [createAccountEmbed],
