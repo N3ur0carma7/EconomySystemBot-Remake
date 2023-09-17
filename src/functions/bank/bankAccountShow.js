@@ -6,6 +6,7 @@ const {
     ComponentType,
 } = require('discord.js');
 const UserBank = require('../../models/UserBank');
+const loggingBankAccount = require("../log/loggingBankAccount");
 
 module.exports = async (interaction) => {
     try {
@@ -17,7 +18,7 @@ module.exports = async (interaction) => {
         if (!userBank) {
             const noAccountEmbed = new EmbedBuilder()
                 .setTitle('No Account Error :')
-                .setDescription("Tu ne peux pas montrer l'argent que tu possèdes sans compte bancaire *(/bank account create)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
+                .setDescription("Tu ne peux pas montrer l'argent que tu possèdes sans compte bancaire *(/Bank Accounts account create)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
                 .setColor("Red");
             await interaction.reply({
                 embeds: [noAccountEmbed],
@@ -55,8 +56,8 @@ module.exports = async (interaction) => {
             time: 30_000,
         });
 
-        trigger = 0;
-        collector.on('collect', (interaction) => {
+        let trigger = 0;
+        collector.on('collect', async (interaction) => {
             if (trigger === 1) {
                 return;
             }
@@ -68,6 +69,13 @@ module.exports = async (interaction) => {
                 interaction.reply({
                     embeds: [balanceShareEmbed],
                 });
+
+                const actionId = 3;
+                const actionName = "Account Balance Share :";
+                const content = `User <@${interaction.member.id}> shared his account balance in <#${interaction.channel.id}>.`;
+                const logUserId = interaction.member.id;
+
+                await loggingBankAccount(actionId, actionName, content, interaction, logUserId);
                 trigger = 1;
                 return;
             }

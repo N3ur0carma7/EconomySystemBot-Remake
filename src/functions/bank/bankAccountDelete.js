@@ -6,6 +6,7 @@ const {
     ComponentType,
 } = require("discord.js");
 const UserBank = require('../../models/UserBank');
+const loggingBankAccount = require("../log/loggingBankAccount");
 
 module.exports = async (interaction, user) => {
     let errTrigger;
@@ -115,6 +116,10 @@ module.exports = async (interaction, user) => {
                     });
                 }
 
+                const actionId = 4;
+                const actionName = "Account Delete :";
+                const content = `User <@${user}>'s account has been **deleted**.`;
+                await loggingBankAccount(actionId, actionName, content, interaction, user);
                 trigger = 1;
                 return;
             }

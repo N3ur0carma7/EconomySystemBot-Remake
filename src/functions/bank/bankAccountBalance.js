@@ -11,7 +11,7 @@ module.exports = async (interaction) => {
         if (!userBank) {
             const noAccountEmbed = new EmbedBuilder()
                 .setTitle('No Account Error :')
-                .setDescription("Tu ne peux pas consulter l'argent que tu possèdes sans compte bancaire *(/bank account create)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
+                .setDescription("Tu ne peux pas consulter l'argent que tu possèdes sans compte bancaire *(/Bank Accounts account create)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
                 .setColor("Red");
             await interaction.reply({
                 embeds: [noAccountEmbed],

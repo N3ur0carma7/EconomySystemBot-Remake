@@ -4,6 +4,7 @@ const bankAccountBalance = require('../../functions/bank/bankAccountBalance');
 const bankDaily = require('../../functions/bank/bankDaily');
 const bankAccountShow = require('../../functions/bank/bankAccountShow');
 const bankAccountDelete = require('../../functions/bank/bankAccountDelete');
+const bankAccountLogs = require('../../functions/bank/bankAccountLogs');
 
 const data = {
     name: 'bank',
@@ -11,7 +12,7 @@ const data = {
     options: [
         {
             name: 'account',
-            description: "Interact with bank account",
+            description: "Interact with Bank Accounts account",
             type: 2,
             options: [
                 {
@@ -41,6 +42,46 @@ const data = {
                             required: true,
                         },
                     ],
+                },
+                {
+                    name: 'logs',
+                    description: "Permet de voir les logs bancaires d'une personne.",
+                    type: 1,
+                    options: [
+                        {
+                            name: 'user',
+                            description: "Le personne à qui il faut vérifier les logs.",
+                            type: ApplicationCommandOptionType.User,
+                            required: true,
+                        },
+                        {
+                            name: 'action-filter',
+                            description: "Le filtre à appliquer pour les actions.",
+                            type: ApplicationCommandOptionType.Number,
+                            choices: [
+                                {
+                                    name: 'Account Create',
+                                    value: 0,
+                                },
+                                {
+                                    name: 'Account Add Money',
+                                    value: 1,
+                                },
+                                {
+                                    name: 'Account Remove Money',
+                                    value: 2,
+                                },
+                                {
+                                    name: 'Account Money Share',
+                                    value: 3,
+                                },
+                                {
+                                    name: 'Account Delete',
+                                    value: 4,
+                                },
+                            ],
+                        },
+                    ]
                 },
             ],
         },
@@ -83,6 +124,11 @@ async function run({ interaction }) {
             case 'delete':
                 const user = interaction.options.get('user').value;
                 await bankAccountDelete(interaction, user);
+            } switch (command) {
+            case 'logs':
+                const user = interaction.options.get('user').value;
+                const actionFilter = interaction.options.get('action-filter')?.value;
+                await bankAccountLogs(interaction, user, actionFilter)
             }
     }
     switch (command) {

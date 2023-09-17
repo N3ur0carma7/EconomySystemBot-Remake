@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const UserBank = require('./../../models/UserBank');
+const loggingBankAccount = require('../log/loggingBankAccount');
 
 module.exports = async (interaction) => {
     try {
@@ -37,6 +38,13 @@ module.exports = async (interaction) => {
             embeds: [createAccountEmbed],
             ephemeral: true,
         });
+
+        const actionId = 0;
+        const actionName = "Account Create :";
+        const content = `User <@${interaction.member.id}> created his account.`;
+        const logUserId = interaction.member.id;
+
+        await loggingBankAccount(actionId, actionName, content, interaction, logUserId);
 
     } catch (e) {
         const failEmbed = new EmbedBuilder()

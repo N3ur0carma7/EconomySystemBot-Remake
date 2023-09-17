@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const UserBank = require('./../../models/UserBank');
+const loggingBankAccount = require("../log/loggingBankAccount");
 const dailyAmount = 45;
 
 module.exports = async (interaction) => {
@@ -12,7 +13,7 @@ module.exports = async (interaction) => {
         if (!userBank) {
             const noAccountEmbed = new EmbedBuilder()
                 .setTitle('No Account Error :')
-                .setDescription("Tu ne peux pas récolter l'argent quotidien sans compte bancaire *(**/bank account create**)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
+                .setDescription("Tu ne peux pas récolter l'argent quotidien sans compte bancaire *(**/Bank Accounts account create**)*. \n\n*Si vous pensez que cela est une erreur, veillez contacter <@580160894395219968>*")
                 .setColor("Red");
             await interaction.reply({
                 embeds: [noAccountEmbed],
@@ -49,6 +50,13 @@ module.exports = async (interaction) => {
             embeds: [dailyCollectedEmbed],
             ephemeral: true,
         });
+
+        const actionId = 1;
+        const actionName = "Daily Money :";
+        const content = `User <@${interaction.member.id}> recieved his daily money +$${dailyAmount}. Balance : **$${userBank.bankBalance}**.`;
+        const logUserId = interaction.member.id;
+
+        await loggingBankAccount(actionId, actionName, content, interaction, logUserId);
     } catch (e) {
         const failEmbed = new EmbedBuilder()
             .setTitle("Code Error :")
