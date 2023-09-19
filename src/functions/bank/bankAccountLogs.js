@@ -1,5 +1,5 @@
 const { EmbedBuilder, User} = require("discord.js");
-const UserBankLogs = require('../../models/UserBankLogs');
+const UserBankLogs = require('../../models/UserLogs');
 
 module.exports = async (interaction, user, actionFilter) => {
     try {
